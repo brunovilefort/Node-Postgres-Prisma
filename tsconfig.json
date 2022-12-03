@@ -5,6 +5,7 @@
     "rootDirs": ["src", "tests"],
     "target": "es2021",
     "sourceMap": true,
+    "lib": ["esnext"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
