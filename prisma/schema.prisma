@@ -20,21 +20,33 @@ model User {
 }
 
 model Permission {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  id             String           @id @default(uuid())
+  name           String
+  description    String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @default(now())
+  permissionRole PermissionRole[]
 
   @@map("permissions")
 }
 
 model Role {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  created_at  DateTime @default(now())
-  updated_ad  DateTime @default(now())
+  id             String           @id @default(uuid())
+  name           String
+  description    String
+  created_at     DateTime         @default(now())
+  updated_ad     DateTime         @default(now())
+  permissionRole PermissionRole[]
 
   @@map("roles")
+}
+
+model PermissionRole {
+  id            String     @id @default(uuid())
+  permission_id String
+  permission    Permission @relation(fields: [permission_id], references: [id])
+  role_id       String
+  role          Role       @relation(fields: [role_id], references: [id])
+
+  @@map("permissions_roles")
 }
