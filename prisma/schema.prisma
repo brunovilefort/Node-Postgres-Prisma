@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
-  email      String   @unique
+  email      String     @unique
   phone      String
   password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now())
+  UserRole   UserRole[]
 
   @@map("users")
 }
@@ -37,6 +38,7 @@ model Role {
   created_at     DateTime         @default(now())
   updated_ad     DateTime         @default(now())
   permissionRole PermissionRole[]
+  UserRole       UserRole[]
 
   @@map("roles")
 }
@@ -47,6 +49,19 @@ model PermissionRole {
   permission    Permission @relation(fields: [permission_id], references: [id])
   role_id       String
   role          Role       @relation(fields: [role_id], references: [id])
+  UserRole      UserRole[]
 
   @@map("permissions_roles")
+}
+
+model UserRole {
+  id               String          @id @default(uuid())
+  user_id          String
+  user             User            @relation(fields: [user_id], references: [id])
+  role_id          String
+  role             Role            @relation(fields: [role_id], references: [id])
+  PermissionRole   PermissionRole? @relation(fields: [permissionRoleId], references: [id])
+  permissionRoleId String?
+
+  @@map("users_roles")
 }
