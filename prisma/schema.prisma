@@ -74,3 +74,12 @@ model UserPermission {
 
   @@map("users_permissions")
 }
+
+model Product {
+  id String @id @default(uuid())
+  name String
+  descripton String
+  price Int
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
