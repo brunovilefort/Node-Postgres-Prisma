@@ -28,3 +28,13 @@ model Permission {
 
   @@map("permissions")
 }
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  created_at  DateTime @default(now())
+  updated_ad  DateTime @default(now())
+
+  @@map("roles")
+}
