@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  name       String
-  email      String     @unique
-  phone      String
-  password   String
-  created_at DateTime   @default(now())
-  updated_at DateTime   @default(now())
-  UserRole   UserRole[]
+  id             String           @id @default(uuid())
+  name           String
+  email          String           @unique
+  phone          String
+  password       String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @default(now())
+  UserRole       UserRole[]
+  UserPermission UserPermission[]
 
   @@map("users")
 }
@@ -27,6 +28,7 @@ model Permission {
   created_at     DateTime         @default(now())
   updated_at     DateTime         @default(now())
   permissionRole PermissionRole[]
+  UserPermission UserPermission[]
 
   @@map("permissions")
 }
@@ -49,19 +51,26 @@ model PermissionRole {
   permission    Permission @relation(fields: [permission_id], references: [id])
   role_id       String
   role          Role       @relation(fields: [role_id], references: [id])
-  UserRole      UserRole[]
 
   @@map("permissions_roles")
 }
 
 model UserRole {
-  id               String          @id @default(uuid())
-  user_id          String
-  user             User            @relation(fields: [user_id], references: [id])
-  role_id          String
-  role             Role            @relation(fields: [role_id], references: [id])
-  PermissionRole   PermissionRole? @relation(fields: [permissionRoleId], references: [id])
-  permissionRoleId String?
+  id      String @id @default(uuid())
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id])
+  role_id String
+  role    Role   @relation(fields: [role_id], references: [id])
 
   @@map("users_roles")
+}
+
+model UserPermission {
+  id            String     @id @default(uuid())
+  user_id       String
+  user          User       @relation(fields: [user_id], references: [id])
+  permission_id String
+  permission    Permission @relation(fields: [permission_id], references: [id])
+
+  @@map("users_permissions")
 }
